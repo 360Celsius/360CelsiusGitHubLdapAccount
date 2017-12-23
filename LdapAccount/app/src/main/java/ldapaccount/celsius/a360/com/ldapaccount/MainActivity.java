@@ -6,20 +6,19 @@ import android.accounts.AccountManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 
 import ldapaccount.celsius.a360.com.ldapaccount.constant.ConstKeysAndParams;
 import ldapaccount.celsius.a360.com.ldapaccount.iterface.CreateCustomLdapAccountInterface;
 import ldapaccount.celsius.a360.com.ldapaccount.receivers.AttempLoginToAccountServiceResponseReciver;
-import ldapaccount.celsius.a360.com.ldapaccount.receivers.LdapServerInstance;
+import ldapaccount.celsius.a360.com.ldapaccount.ldapserver.LdapServerInstance;
 import ldapaccount.celsius.a360.com.ldapaccount.services.AttempLoginToAccountService;
+import ldapaccount.celsius.a360.com.ldapaccount.services.LdapServerConnectionService;
 
 public class MainActivity extends AccountAuthenticatorActivity implements CreateCustomLdapAccountInterface {
 
     private AttempLoginToAccountServiceResponseReciver receiver;
     private AccountManager mAccountManager;
     private IntentFilter filter;
-    private Thread mAuthThread;
     private LdapServerInstance ldapServer;
 
 
@@ -51,10 +50,7 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
     protected void onResume() {
         super.onResume();
         if(getIntent().getExtras()!=null && getIntent().getExtras().getString(ConstKeysAndParams.CUSTOM_ACCOUNT_TYPE_KEY)!=null) {
-            Log.e("test", "MainActivity - intent from Account Authenticator-> " + getIntent().getExtras().getString(ConstKeysAndParams.CUSTOM_ACCOUNT_TYPE_KEY));
-            Log.e("test", "MainActivity - intent from Account Authenticator-> " + getIntent().getExtras().getString(ConstKeysAndParams.CUSTOM_ACCOUNT_AUTHANTICATION_TOKEN_TYPE_KEY));
-            Log.e("test", "MainActivity - intent from Account Authenticator-> " + String.valueOf(getIntent().getExtras().getBoolean(ConstKeysAndParams.CUSTOM_ACCOUNT_IS_NEW_ACCOUNT_KEY)));
-
+            //start login service
             Intent msgIntent = new Intent(this, AttempLoginToAccountService.class);
             msgIntent.putExtra(ConstKeysAndParams.CUSTOM_ACCOUNT_USER_EMAIL, "cn=read-only-admin,dc=example,dc=com");
             msgIntent.putExtra(ConstKeysAndParams.CUSTOM_ACCOUNT_USER_PASSWORD, "password");
@@ -69,6 +65,7 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
     @Override
     public void createCustomLdapAccount(Account account, String accountMail , String accountPassword, Intent intent, String authToken) {
 
+        //create custom type account
         mAccountManager.setPassword(account, accountPassword);
 
         account = new Account(accountMail, ConstKeysAndParams.ACCOUNT_TYPE);
@@ -88,6 +85,10 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
         unregisterReceiver(receiver);
 
 
+        //start connect to ldap server service
+        Intent msgIntent = new Intent(this, LdapServerConnectionService.class);
+        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_INSTANCE, ldapServer);
+        startService(msgIntent);
 
         finish();
     }

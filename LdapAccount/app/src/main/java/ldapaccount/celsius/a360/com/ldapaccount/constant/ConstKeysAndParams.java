@@ -20,5 +20,7 @@ public class ConstKeysAndParams {
 
     public static final String PARAM_USER_PASSWORD = "password";
 
+    public static final String LDAP_SERVER_INSTANCE = "ldap_server_instanse";
+
 
 }

@@ -1,4 +1,4 @@
-package ldapaccount.celsius.a360.com.ldapaccount.receivers;
+package ldapaccount.celsius.a360.com.ldapaccount.ldapserver;
 
 import android.util.Log;
 

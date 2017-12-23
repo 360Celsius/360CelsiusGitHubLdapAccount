@@ -51,6 +51,10 @@
         <service
             android:name=".services.AttempLoginToAccountService"
             android:exported="false"/>
+
+        <service
+            android:name=".services.LdapServerConnectionService"
+            android:exported="false"/>
     </application>
 
 </manifest>
