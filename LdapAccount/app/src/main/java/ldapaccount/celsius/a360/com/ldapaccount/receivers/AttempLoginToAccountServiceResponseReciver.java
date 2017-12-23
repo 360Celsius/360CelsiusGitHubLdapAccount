@@ -19,7 +19,7 @@ public class AttempLoginToAccountServiceResponseReciver extends BroadcastReceive
 
     private CreateCustomLdapAccountInterface listener = null;
 
-    public static final String ACTION_RESP = "com.mamlambo.intent.action.MESSAGE_PROCESSED";
+    public static final String ACTION_RESP = "com.ldap.BroadcastReceiverAttempLogin";
 
     @Override
     public void onReceive(Context context, Intent intent) {

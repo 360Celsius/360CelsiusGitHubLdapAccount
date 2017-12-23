@@ -31,7 +31,7 @@ public class AttempLoginToAccountService extends IntentService {
         String authToken = AccountUtilities.serverAuthenticatorInterface.signIn(intent.getExtras().getString(ConstKeysAndParams.CUSTOM_ACCOUNT_USER_EMAIL) , intent.getExtras().getString(ConstKeysAndParams.CUSTOM_ACCOUNT_USER_PASSWORD));
 
 
-        final Intent broadcastIntent = new Intent();
+        final Intent broadcastIntent = new Intent(AttempLoginToAccountServiceResponseReciver.ACTION_RESP);
         broadcastIntent.setAction(AttempLoginToAccountServiceResponseReciver.ACTION_RESP);
         broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
         broadcastIntent.putExtra(AccountManager.KEY_ACCOUNT_NAME, intent.getExtras().getString(ConstKeysAndParams.CUSTOM_ACCOUNT_USER_EMAIL));

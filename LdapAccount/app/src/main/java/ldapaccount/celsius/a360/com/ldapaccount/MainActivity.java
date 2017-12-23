@@ -6,19 +6,24 @@ import android.accounts.AccountManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 
 import ldapaccount.celsius.a360.com.ldapaccount.constant.ConstKeysAndParams;
 import ldapaccount.celsius.a360.com.ldapaccount.iterface.CreateCustomLdapAccountInterface;
+import ldapaccount.celsius.a360.com.ldapaccount.iterface.CreateLdapServerConnectionInterface;
 import ldapaccount.celsius.a360.com.ldapaccount.receivers.AttempLoginToAccountServiceResponseReciver;
 import ldapaccount.celsius.a360.com.ldapaccount.ldapserver.LdapServerInstance;
+import ldapaccount.celsius.a360.com.ldapaccount.receivers.LdapServerConnectionServiceResponseReciver;
 import ldapaccount.celsius.a360.com.ldapaccount.services.AttempLoginToAccountService;
 import ldapaccount.celsius.a360.com.ldapaccount.services.LdapServerConnectionService;
 
-public class MainActivity extends AccountAuthenticatorActivity implements CreateCustomLdapAccountInterface {
+public class MainActivity extends AccountAuthenticatorActivity implements CreateCustomLdapAccountInterface, CreateLdapServerConnectionInterface {
 
-    private AttempLoginToAccountServiceResponseReciver receiver;
+    private AttempLoginToAccountServiceResponseReciver receiverCustonAccountLogIN;
+    private LdapServerConnectionServiceResponseReciver receiverConnectToLdapServer;
     private AccountManager mAccountManager;
-    private IntentFilter filter;
+    private IntentFilter filterCustonAccountLogIN;
+    private IntentFilter filterLdapServeerConnection;
     private LdapServerInstance ldapServer;
 
 
@@ -31,13 +36,17 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
         mAccountManager = AccountManager.get(this);
 
 
-        filter = new IntentFilter(AttempLoginToAccountServiceResponseReciver.ACTION_RESP);
-        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        filterCustonAccountLogIN = new IntentFilter(AttempLoginToAccountServiceResponseReciver.ACTION_RESP);
+        filterCustonAccountLogIN.addCategory(Intent.CATEGORY_DEFAULT);
 
-        receiver = new AttempLoginToAccountServiceResponseReciver();
-        receiver.createCustomLdapAccountListener(this);
+        filterLdapServeerConnection = new IntentFilter(LdapServerConnectionServiceResponseReciver.ACTION_RESP);
+        filterLdapServeerConnection.addCategory(Intent.CATEGORY_DEFAULT);
 
-        registerReceiver(receiver, filter);
+        receiverCustonAccountLogIN = new AttempLoginToAccountServiceResponseReciver();
+        receiverCustonAccountLogIN.createCustomLdapAccountListener(this);
+
+        receiverConnectToLdapServer = new LdapServerConnectionServiceResponseReciver();
+        receiverConnectToLdapServer.createCustomLdapServerConnectionListner(this);
 
         //Ldap server
         ldapServer = new LdapServerInstance("ldap.forumsys.com", 389, 0, "cn=read-only-admin,dc=example,dc=com", "password","ou=mathematicians,dc=example,dc=com");
@@ -48,6 +57,10 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
 
     @Override
     protected void onResume() {
+
+        registerReceiver(receiverCustonAccountLogIN, filterCustonAccountLogIN);
+        registerReceiver(receiverConnectToLdapServer, filterLdapServeerConnection);
+
         super.onResume();
         if(getIntent().getExtras()!=null && getIntent().getExtras().getString(ConstKeysAndParams.CUSTOM_ACCOUNT_TYPE_KEY)!=null) {
             //start login service
@@ -61,6 +74,17 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
     }
 
 
+    @Override
+    protected void onPause() {
+        try {
+            unregisterReceiver(receiverCustonAccountLogIN);
+            unregisterReceiver(receiverConnectToLdapServer);
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+        }
+
+        super.onPause();
+    }
 
     @Override
     public void createCustomLdapAccount(Account account, String accountMail , String accountPassword, Intent intent, String authToken) {
@@ -82,8 +106,6 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(AccountAuthenticatorActivity.RESULT_OK, intent);
 
-        unregisterReceiver(receiver);
-
 
         //start connect to ldap server service
         Intent msgIntent = new Intent(this, LdapServerConnectionService.class);
@@ -91,5 +113,12 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
         startService(msgIntent);
 
         finish();
+    }
+
+    @Override
+    public void createLdapServerConnection(String[] baseDn, String errorMEssage, boolean isConnected) {
+        //Log.e("test","baseDn-> "+baseDn[0]);
+        Log.e("test","errorMEssage-> "+errorMEssage);
+        Log.e("test","isConnected-> "+String.valueOf(isConnected));
     }
 }

@@ -32,6 +32,7 @@
         android:roundIcon="@drawable/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,6 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service android:name=".services.CustomAccountTypeService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"></action>
@@ -55,6 +57,24 @@
         <service
             android:name=".services.LdapServerConnectionService"
             android:exported="false"/>
+
+
+        <receiver
+            android:name=".receivers.AttempLoginToAccountServiceResponseReciver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.ldap.BroadcastReceiverAttempLogin" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receivers.LdapServerConnectionServiceResponseReciver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.ldap.BroadcastReceiverLdapServerConnection" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

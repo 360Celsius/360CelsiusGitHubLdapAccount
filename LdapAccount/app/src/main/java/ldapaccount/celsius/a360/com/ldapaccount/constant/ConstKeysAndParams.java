@@ -22,5 +22,10 @@ public class ConstKeysAndParams {
 
     public static final String LDAP_SERVER_INSTANCE = "ldap_server_instanse";
 
+    public static final String LDAP_SERVER_CONNECTION_MESSAGE_KEY = "ldap_server_connection_message_key";
+    public static final String LDAP_SERVER_CONNECTION_BASE_DN_KEY = "ldap_server_connection_base_dn_key";
+    public static final String LDAP_SERVER_CONNECTION_IS_CONNECTION_SUCCESSFUL  = "ldap_server_connection_is_connection_successful";
+
+
 
 }
