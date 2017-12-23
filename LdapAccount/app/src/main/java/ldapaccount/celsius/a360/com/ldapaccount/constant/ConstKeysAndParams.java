@@ -21,6 +21,7 @@ public class ConstKeysAndParams {
     public static final String PARAM_USER_PASSWORD = "password";
 
     public static final String LDAP_SERVER_INSTANCE = "ldap_server_instanse";
+    public static final String LDAP_SERVER_SEARCH_FILTER = "search_search_filter";
 
     public static final String LDAP_SERVER_CONNECTION_MESSAGE_KEY = "ldap_server_connection_message_key";
     public static final String LDAP_SERVER_CONNECTION_BASE_DN_KEY = "ldap_server_connection_base_dn_key";

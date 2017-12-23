@@ -8,6 +8,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.unboundid.ldap.sdk.Filter;
+import com.unboundid.ldap.sdk.LDAPException;
+
 import ldapaccount.celsius.a360.com.ldapaccount.constant.ConstKeysAndParams;
 import ldapaccount.celsius.a360.com.ldapaccount.iterface.CreateCustomLdapAccountInterface;
 import ldapaccount.celsius.a360.com.ldapaccount.iterface.CreateLdapServerConnectionInterface;
@@ -15,6 +18,7 @@ import ldapaccount.celsius.a360.com.ldapaccount.receivers.AttempLoginToAccountSe
 import ldapaccount.celsius.a360.com.ldapaccount.ldapserver.LdapServerInstance;
 import ldapaccount.celsius.a360.com.ldapaccount.receivers.LdapServerConnectionServiceResponseReciver;
 import ldapaccount.celsius.a360.com.ldapaccount.services.AttempLoginToAccountService;
+import ldapaccount.celsius.a360.com.ldapaccount.services.ContactSearchService;
 import ldapaccount.celsius.a360.com.ldapaccount.services.LdapServerConnectionService;
 
 public class MainActivity extends AccountAuthenticatorActivity implements CreateCustomLdapAccountInterface, CreateLdapServerConnectionInterface {
@@ -25,6 +29,7 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
     private IntentFilter filterCustonAccountLogIN;
     private IntentFilter filterLdapServeerConnection;
     private LdapServerInstance ldapServer;
+    public Filter filter;
 
 
     @Override
@@ -120,5 +125,21 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
         //Log.e("test","baseDn-> "+baseDn[0]);
         Log.e("test","errorMEssage-> "+errorMEssage);
         Log.e("test","isConnected-> "+String.valueOf(isConnected));
+
+
+        //if connection is ok then make contacts search
+        final String filterString = "(objectClass=*)";
+        try {
+            filter = Filter.create(filterString);
+        } catch (LDAPException e) {
+            e.printStackTrace();
+        }
+        //start search
+        Intent msgIntent = new Intent(this, ContactSearchService.class);
+        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_INSTANCE, ldapServer);
+        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_FILTER, filter);
+        startService(msgIntent);
+
+
     }
 }
