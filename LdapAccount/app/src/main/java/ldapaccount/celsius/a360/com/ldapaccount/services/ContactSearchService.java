@@ -25,6 +25,9 @@ public class ContactSearchService extends IntentService {
     private LDAPConnection connection = null;
     private SearchRequest request = null;
     private Filter filter = null;
+    private String BASE_DN = null;
+    private int SIZE_LIMIT = 0;
+    private int TIME_LIMIT_SECONDS = 0;
 
     public ContactSearchService() {
         super("ContactSearchService");
@@ -36,9 +39,10 @@ public class ContactSearchService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        String BASE_DN = "dc=example,dc=com";
-        int SIZE_LIMIT = 2000;
-        int TIME_LIMIT_SECONDS = 120;
+
+        BASE_DN = intent.getStringExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_BASE_DN);
+        SIZE_LIMIT = intent.getIntExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_SIZE_LIMIT,1000);
+        TIME_LIMIT_SECONDS = intent.getIntExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_TIME_LIMIT_SECONDS,100);
 
         try {
             connection = ((LdapServerInstance) intent.getSerializableExtra(ConstKeysAndParams.LDAP_SERVER_INSTANCE)).getConnection();

@@ -138,6 +138,9 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
         Intent msgIntent = new Intent(this, ContactSearchService.class);
         msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_INSTANCE, ldapServer);
         msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_FILTER, filter);
+        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_BASE_DN, "dc=example,dc=com");
+        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_SIZE_LIMIT, 2000);
+        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_TIME_LIMIT_SECONDS, 120);
         startService(msgIntent);
 
 

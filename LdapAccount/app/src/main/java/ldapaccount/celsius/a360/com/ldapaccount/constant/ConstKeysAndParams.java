@@ -22,6 +22,9 @@ public class ConstKeysAndParams {
 
     public static final String LDAP_SERVER_INSTANCE = "ldap_server_instanse";
     public static final String LDAP_SERVER_SEARCH_FILTER = "search_search_filter";
+    public static final String LDAP_SERVER_SEARCH_BASE_DN = "search_search_filter";
+    public static final String LDAP_SERVER_SEARCH_SIZE_LIMIT = "search_search_filter_size_limit";
+    public static final String LDAP_SERVER_SEARCH_TIME_LIMIT_SECONDS = "search_search_filter_limit_seconds";
 
     public static final String LDAP_SERVER_CONNECTION_MESSAGE_KEY = "ldap_server_connection_message_key";
     public static final String LDAP_SERVER_CONNECTION_BASE_DN_KEY = "ldap_server_connection_base_dn_key";
