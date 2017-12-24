@@ -19,7 +19,7 @@ public class AttempLoginToAccountServiceResponseReciver extends BroadcastReceive
 
     private CreateCustomLdapAccountInterface listener = null;
 
-    public static final String ACTION_RESP = "com.ldap.BroadcastReceiverAttempLogin";
+    public static final String ACTION_RESP = "com.ldap.AttempLoginToAccountServiceResponseReciver";
 
     @Override
     public void onReceive(Context context, Intent intent) {

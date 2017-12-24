@@ -56,15 +56,14 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
         //Ldap server
         ldapServer = new LdapServerInstance("ldap.forumsys.com", 389, 0, "cn=read-only-admin,dc=example,dc=com", "password","ou=mathematicians,dc=example,dc=com");
 
+        registerReceiver(receiverCustonAccountLogIN, filterCustonAccountLogIN);
+        registerReceiver(receiverConnectToLdapServer, filterLdapServeerConnection);
     }
 
 
 
     @Override
     protected void onResume() {
-
-        registerReceiver(receiverCustonAccountLogIN, filterCustonAccountLogIN);
-        registerReceiver(receiverConnectToLdapServer, filterLdapServeerConnection);
 
         super.onResume();
         if(getIntent().getExtras()!=null && getIntent().getExtras().getString(ConstKeysAndParams.CUSTOM_ACCOUNT_TYPE_KEY)!=null) {
@@ -82,8 +81,6 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
     @Override
     protected void onPause() {
         try {
-            unregisterReceiver(receiverCustonAccountLogIN);
-            unregisterReceiver(receiverConnectToLdapServer);
         }catch (IllegalArgumentException e){
             e.printStackTrace();
         }
@@ -117,7 +114,10 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
         msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_INSTANCE, ldapServer);
         startService(msgIntent);
 
-        finish();
+        unregisterReceiver(receiverCustonAccountLogIN);
+
+
+        //finish();
     }
 
     @Override
@@ -138,10 +138,12 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
         Intent msgIntent = new Intent(this, ContactSearchService.class);
         msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_INSTANCE, ldapServer);
         msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_FILTER, filter);
-        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_BASE_DN, "dc=example,dc=com");
+        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_BASE_DN, "ou=mathematicians,dc=example,dc=com");
         msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_SIZE_LIMIT, 2000);
         msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_TIME_LIMIT_SECONDS, 120);
         startService(msgIntent);
+
+        unregisterReceiver(receiverConnectToLdapServer);
 
 
     }

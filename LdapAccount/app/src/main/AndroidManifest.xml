@@ -50,6 +50,15 @@
                 android:resource="@xml/ldap_custom_accout_authenticator"></meta-data>
         </service>
 
+        <service android:name=".services.CustomAccountTypeSyncService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data android:name="android.content.SyncAdapter"
+                android:resource="@xml/ldap_custom_accout_syncadapter" />
+        </service>
+
         <service
             android:name=".services.AttempLoginToAccountService"
             android:exported="false"/>
@@ -69,7 +78,7 @@
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
-                <action android:name="com.ldap.BroadcastReceiverAttempLogin" />
+                <action android:name="com.ldap.AttempLoginToAccountServiceResponseReciver" />
             </intent-filter>
         </receiver>
 
@@ -78,7 +87,7 @@
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
-                <action android:name="com.ldap.BroadcastReceiverLdapServerConnection" />
+                <action android:name="com.ldap.LdapServerConnectionServiceResponseReciver" />
             </intent-filter>
         </receiver>
 

@@ -46,7 +46,7 @@ public class ContactSearchService extends IntentService {
 
         try {
             connection = ((LdapServerInstance) intent.getSerializableExtra(ConstKeysAndParams.LDAP_SERVER_INSTANCE)).getConnection();
-            filter = ((Filter) intent.getSerializableExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_FILTER));;
+            filter = Filter.create((String) intent.getSerializableExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_FILTER));
             request = new SearchRequest(BASE_DN, SearchScope.SUB, filter);
             request.setSizeLimit(SIZE_LIMIT);
             request.setTimeLimitSeconds(TIME_LIMIT_SECONDS);

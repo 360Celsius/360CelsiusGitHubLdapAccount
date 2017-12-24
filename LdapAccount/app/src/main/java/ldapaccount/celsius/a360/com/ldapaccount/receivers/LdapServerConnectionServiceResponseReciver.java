@@ -17,7 +17,7 @@ public class LdapServerConnectionServiceResponseReciver extends BroadcastReceive
 
     private CreateLdapServerConnectionInterface listner = null;
 
-    public static final String ACTION_RESP = "com.ldap.BroadcastReceiverLdapServerConnection";
+    public static final String ACTION_RESP = "com.ldap.LdapServerConnectionServiceResponseReciver";
 
     @Override
     public void onReceive(Context context, Intent intent) {

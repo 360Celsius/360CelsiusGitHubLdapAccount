@@ -16,7 +16,6 @@ import ldapaccount.celsius.a360.com.ldapaccount.receivers.AttempLoginToAccountSe
 
 public class AttempLoginToAccountService extends IntentService {
 
-
     public AttempLoginToAccountService() {
         super("AttempLoginToAccountService");
     }
