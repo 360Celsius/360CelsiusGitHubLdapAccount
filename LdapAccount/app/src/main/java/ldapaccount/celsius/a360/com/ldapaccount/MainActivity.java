@@ -54,7 +54,7 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
         receiverConnectToLdapServer.createCustomLdapServerConnectionListner(this);
 
         //Ldap server
-        ldapServer = new LdapServerInstance("ldap.forumsys.com", 389, 0, "cn=read-only-admin,dc=example,dc=com", "password","ou=mathematicians,dc=example,dc=com");
+        ldapServer = new LdapServerInstance("ldap.forumsys.com", 389, 0, "cn=read-only-admin,dc=example,dc=com", "password","dc=example,dc=com");
 
         registerReceiver(receiverCustonAccountLogIN, filterCustonAccountLogIN);
         registerReceiver(receiverConnectToLdapServer, filterLdapServeerConnection);
@@ -75,17 +75,6 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
         }
 
 
-    }
-
-
-    @Override
-    protected void onPause() {
-        try {
-        }catch (IllegalArgumentException e){
-            e.printStackTrace();
-        }
-
-        super.onPause();
     }
 
     @Override
@@ -113,38 +102,33 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
         Intent msgIntent = new Intent(this, LdapServerConnectionService.class);
         msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_INSTANCE, ldapServer);
         startService(msgIntent);
-
-        unregisterReceiver(receiverCustonAccountLogIN);
-
-
         //finish();
     }
 
     @Override
-    public void createLdapServerConnection(String[] baseDn, String errorMEssage, boolean isConnected) {
+    public void createLdapServerConnection(String errorMEssage, boolean isConnected) {
         //Log.e("test","baseDn-> "+baseDn[0]);
         Log.e("test","errorMEssage-> "+errorMEssage);
         Log.e("test","isConnected-> "+String.valueOf(isConnected));
 
 
         //if connection is ok then make contacts search
-        final String filterString = "(objectClass=*)";
-        try {
-            filter = Filter.create(filterString);
-        } catch (LDAPException e) {
-            e.printStackTrace();
-        }
+
         //start search
         Intent msgIntent = new Intent(this, ContactSearchService.class);
         msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_INSTANCE, ldapServer);
-        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_FILTER, filter);
-        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_BASE_DN, "ou=mathematicians,dc=example,dc=com");
+        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_FILTER, "(objectClass=*)");
+        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_BASE_DN, "dc=example,dc=com");
         msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_SIZE_LIMIT, 2000);
         msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_TIME_LIMIT_SECONDS, 120);
         startService(msgIntent);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiverCustonAccountLogIN);
         unregisterReceiver(receiverConnectToLdapServer);
-
 
     }
 }

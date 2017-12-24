@@ -50,13 +50,12 @@
                 android:resource="@xml/ldap_custom_accout_authenticator"></meta-data>
         </service>
 
-        <service android:name=".services.CustomAccountTypeSyncService"
-            android:exported="true">
+        <service android:name=".services.CustomAccountTypeSyncService">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
             <meta-data android:name="android.content.SyncAdapter"
-                android:resource="@xml/ldap_custom_accout_syncadapter" />
+                android:resource="@xml/ldap_custom_accout_syncadapter" ></meta-data>
         </service>
 
         <service

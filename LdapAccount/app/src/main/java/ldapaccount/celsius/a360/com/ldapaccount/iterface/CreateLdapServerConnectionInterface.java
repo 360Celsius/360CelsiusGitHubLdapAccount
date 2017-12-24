@@ -5,5 +5,5 @@ package ldapaccount.celsius.a360.com.ldapaccount.iterface;
  */
 
 public interface CreateLdapServerConnectionInterface {
-    public void createLdapServerConnection(String[] baseDn,String errorMEssage, boolean isConnected);
+    public void createLdapServerConnection(String errorMEssage, boolean isConnected);
 }

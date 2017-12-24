@@ -22,11 +22,10 @@ public class LdapServerConnectionServiceResponseReciver extends BroadcastReceive
     @Override
     public void onReceive(Context context, Intent intent) {
         boolean isSuccessulConnection = intent.getBooleanExtra(ConstKeysAndParams.LDAP_SERVER_CONNECTION_IS_CONNECTION_SUCCESSFUL,false);
-        String[] baseDN = (String[]) intent.getExtras().get(ConstKeysAndParams.LDAP_SERVER_CONNECTION_BASE_DN_KEY);
         String errorMessage = intent.getStringExtra(ConstKeysAndParams.LDAP_SERVER_CONNECTION_MESSAGE_KEY);
 
         if (listner != null) {
-            listner.createLdapServerConnection(baseDN,errorMessage,isSuccessulConnection);
+            listner.createLdapServerConnection(errorMessage,isSuccessulConnection);
         }
 
     }
