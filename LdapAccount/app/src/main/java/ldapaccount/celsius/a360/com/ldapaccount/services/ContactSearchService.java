@@ -42,7 +42,7 @@ public class ContactSearchService extends IntentService {
 
         BASE_DN = intent.getStringExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_BASE_DN);
         SIZE_LIMIT = intent.getIntExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_SIZE_LIMIT,1000);
-        TIME_LIMIT_SECONDS = intent.getIntExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_TIME_LIMIT_SECONDS,100);
+        TIME_LIMIT_SECONDS = intent.getIntExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_TIME_LIMIT_SECONDS,1000);
 
         final String filterString = intent.getStringExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_FILTER);//"(objectClass=*)";
         try {
