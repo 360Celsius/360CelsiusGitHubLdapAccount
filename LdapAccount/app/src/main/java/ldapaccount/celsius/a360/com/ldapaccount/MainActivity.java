@@ -115,13 +115,13 @@ public class MainActivity extends AccountAuthenticatorActivity implements Create
         //if connection is ok then make contacts search
 
         //start search
-        Intent msgIntent = new Intent(this, ContactSearchService.class);
-        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_INSTANCE, ldapServer);
-        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_FILTER, "(objectClass=*)");
-        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_BASE_DN, "dc=example,dc=com");
-        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_SIZE_LIMIT, 2000);
-        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_TIME_LIMIT_SECONDS, 120);
-        startService(msgIntent);
+//        Intent msgIntent = new Intent(this, ContactSearchService.class);
+//        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_INSTANCE, ldapServer);
+//        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_FILTER, "(objectClass=*)");
+//        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_BASE_DN, "dc=example,dc=com");
+//        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_SIZE_LIMIT, 2000);
+//        msgIntent.putExtra(ConstKeysAndParams.LDAP_SERVER_SEARCH_TIME_LIMIT_SECONDS, 120);
+//        startService(msgIntent);
     }
 
     @Override

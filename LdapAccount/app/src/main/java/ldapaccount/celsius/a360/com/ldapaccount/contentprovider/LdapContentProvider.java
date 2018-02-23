@@ -2,7 +2,9 @@ package ldapaccount.celsius.a360.com.ldapaccount.contentprovider;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +15,8 @@ import android.util.Log;
  */
 
 public class LdapContentProvider extends ContentProvider {
+
+
     @Override
     public boolean onCreate() {
         Log.e("content_provider_test","LdapContentProvider - onCreate");
